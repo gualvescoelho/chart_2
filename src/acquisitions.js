@@ -1,4 +1,6 @@
 import Chart from 'chart.js/auto'
+import bb from './dataLoaderBB.js'
+import mm from './dataLoaderMM.js'
 
 // async function fetchData() {
 //     const response = await fetch('../dados_bb.json');
@@ -24,6 +26,19 @@ import Chart from 'chart.js/auto'
     { year: 2016, count: 28 },
   ];
 
+  console.log("dados BB")
+
+  console.log('BB labels:', bb.labels);
+  console.log('BB bpm:', bb.bpmData);
+  console.log('BB movimentos:', bb.movimentosData);
+
+  console.log("Dados mae")
+
+  console.log('Labels:', mm.labels);
+    console.log('Baixa Data:', mm.baixaData);
+    console.log('Alta Data:', mm.altaData);
+    console.log('Glicemia Data:', mm.glicemiaData);
+    console.log('BPM Data:', mm.bpmData);
    new Chart(
     document.getElementById('acquisitionsArea'),
     {
