@@ -1,4 +1,4 @@
-import data from '../dados_gestante2.json'; // Importar o JSON diretamente
+import datas from '../dados_gestante2.json'; // Importar o JSON diretamente
 
 // Função para processar os dados JSON
 // Função para processar cada string de data e hora
@@ -16,6 +16,11 @@ function processDateTime(dateTimeStr) {
   };
 }
 
+function processMedia(altaData, baixaData) {
+  return altaData.map((alta, index) => (2 * baixaData[index] + alta) / 3);
+}
+
+
 // Função principal para processar os dados
 function processData(data) {
   // Mapeia cada item para obter as strings de data e hora
@@ -25,11 +30,14 @@ function processData(data) {
   const glicemiaData = data.map(item => item.glicemia);
   const bpmData = data.map(item => item.bpm);
 
+  const mediaPressao = processMedia(altaData,baixaData);
+
   // Processa cada string de data e hora usando processDateTime
   const dates = labels.map(processDateTime);
 
   return {
     dates,
+    mediaPressao,
     baixaData,
     altaData,
     glicemiaData,
@@ -37,5 +45,5 @@ function processData(data) {
   };
 }
 
-const gg = processData(data);
+const gg = processData(datas);
 export default gg;

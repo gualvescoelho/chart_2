@@ -1,48 +1,55 @@
-import Chart from 'chart.js/auto'
-import bb from './dataLoaderBB.js'
-import mm from './dataLoaderMM.js'
-import gg from './dataLoaderGG.js'
-
-// async function fetchData() {
-//     const response = await fetch('../dados_bb.json');
-//     const data = await response.json();
-//     return data;
-// }
+import Chart from 'chart.js/auto';
+import bb from './dataLoaderBB.js'; // Supondo que esses módulos sejam necessários
+import mm from './dataLoaderMM.js'; // Supondo que esses módulos sejam necessários
+import gg from './dataLoaderGG.js'; // Dados principais
 
 (async function() {
-    // const datajson = await fetchData();
+  // Função para converter "HH:mm" para minutos desde a meia-noite
+  const timeToMinutes = (timeStr) => {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+  };
 
-    // Extrair labels (data_coleta) e datasets (bpm, movimentos)
-    // const labels = data.map(item => item.data_coleta);
-    // const bpmData = data.map(item => item.bpm);
-    // const movimentosData = data.map(item => item.movimentos);
+  const interval_time = 1;
 
-  const data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
+  // Função para converter minutos desde a meia-noite para "HH:mm"
+  const minutesToTime = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours.toString().padStart(interval_time, '0')}:${mins.toString().padStart(interval_time, '0')}`;
+  };
 
-  console.log(gg.dates.data);
+  // Obter a hora atual
+  const now = new Date();
+  const currentTimeStr = minutesToTime(now.getHours() * 60 + now.getMinutes());
+  
+  // Definir o intervalo de 2 horas antes e depois da hora atual
+  const twoHoursInMinutes = interval_time * 60;
+  const currentTimeInMinutes = timeToMinutes(currentTimeStr);
+  const startTimeInMinutes = currentTimeInMinutes - twoHoursInMinutes;
+  const endTimeInMinutes = currentTimeInMinutes + twoHoursInMinutes;
 
-  // console.log("dados BB")
+  // Filtrar os dados para a data específica e dentro do intervalo de tempo
+  const dataForDate = gg.dates.filter(date => date.date === '2024-07-07');
+  const filteredData = dataForDate.filter(data => {
+    const timeInMinutes = timeToMinutes(data.time);
+    return timeInMinutes >= startTimeInMinutes && timeInMinutes <= endTimeInMinutes;
+  });
 
-  // console.log('BB dates:', bb.dates);
-  // console.log('BB bpm:', bb.bpmData);
-  // console.log('BB movimentos:', bb.movimentosData);
+  // Ordenar pelo campo 'time'
+  const sortedFilteredData = filteredData.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
 
-  // console.log("Dados mae")
+  // Extrair labels e dados ordenados
+  const labels = sortedFilteredData.map(data => data.time);
+  const mediaPressaoData = sortedFilteredData.map((_, index) => gg.mediaPressao[index]); // Ajustar conforme necessário
+  const glicemiaData = sortedFilteredData.map((_, index) => gg.glicemiaData[index]); // Ajustar conforme necessário
+  const bpmData = sortedFilteredData.map((_, index) => gg.bpmData[index]); // Ajustar conforme necessário
 
-  // console.log('Labels:', mm.labels);
-  //   console.log('Baixa Data:', mm.baixaData);
-  //   console.log('Alta Data:', mm.altaData);
-  //   console.log('Glicemia Data:', mm.glicemiaData);
-  //   console.log('BPM Data:', mm.bpmData);
-   new Chart(
+  // Exibir os resultados
+  console.log('Filtered and Sorted Data:', sortedFilteredData);
+
+  // Gráfico de linha para dados BPM
+  new Chart(
     document.getElementById('acquisitionsArea'),
     {
       type: 'line',
@@ -50,27 +57,29 @@ import gg from './dataLoaderGG.js'
         animation: false,
         plugins: {
           legend: {
-            display: false
+            display: true
           },
           tooltip: {
-            enabled: false
+            enabled: true
           }
         }
       },
       data: {
-        labels: gg.dates.data,
+        labels: labels,
         datasets: [
           {
-            label: 'Acquisitions by year',
-            data: bb.bpmData,
+            label: 'BPM Data',
+            data: bpmData,
             backgroundColor: 'rgba(75, 192, 192, 0.2)', // Cor do preenchimento
-            fill: true // Preencher a área abaixo da linha
+            borderColor: 'rgba(75, 192, 192, 1)', // Cor da linha
+            fill: false // Preencher a área abaixo da linha
           }
         ]
       }
     }
   );
 
+  // Gráfico de linha para pressão arterial
   new Chart(
     document.getElementById('acquisitionsLine'),
     {
@@ -79,50 +88,52 @@ import gg from './dataLoaderGG.js'
         animation: false,
         plugins: {
           legend: {
-            display: false
+            display: true
           },
           tooltip: {
-            enabled: false
+            enabled: true
           }
         }
       },
       data: {
-        labels: data.map(row => row.year),
+        labels: labels,
         datasets: [
           {
-            label: 'Acquisitions by year',
-            data: data.map(row => row.count)
+            label: 'Pressão Arterial',
+            data: mediaPressaoData,
+            borderColor: 'rgba(255, 99, 132, 1)', // Cor da linha
+            fill: false // Não preencher a área abaixo da linha
           }
         ]
       }
     }
   );
 
+  // Gráfico de barras para glicemia
   new Chart(
     document.getElementById('acquisitionsBar'),
     {
-      type: 'bar',
+      type: 'line',
       options: {
         animation: false,
         plugins: {
           legend: {
-            display: false
+            display: true
           },
           tooltip: {
-            enabled: false
+            enabled: true
           }
         }
       },
       data: {
-        labels: data.map(row => row.year),
+        labels: labels,
         datasets: [
           {
-            label: 'Acquisitions by year',
-            data: data.map(row => row.count),
+            label: 'Glicemia',
+            data: glicemiaData,
           }
         ]
       }
     }
   );
-
 })();

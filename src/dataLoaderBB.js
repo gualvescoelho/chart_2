@@ -3,7 +3,7 @@ import data from '../dados_bb.json'; // Importar o JSON diretamente
 
 function processDateTime(dateTimeStr) {
   // Divida a string em data e hora
-  const [date, time] = dateTimeStr.split(' ');
+  const [date, time] = dateTimeStr.split('  ');
 
   // Converta para um objeto Date, ajustando para o formato ISO 8601
   const dateTime = new Date(`${date}T${time}:00`);

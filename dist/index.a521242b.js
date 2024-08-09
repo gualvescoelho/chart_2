@@ -587,131 +587,121 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _auto = require("chart.js/auto");
 var _autoDefault = parcelHelpers.interopDefault(_auto);
-var _dataLoaderBBJs = require("./dataLoaderBB.js");
+var _dataLoaderBBJs = require("./dataLoaderBB.js"); // Supondo que esses módulos sejam necessários
 var _dataLoaderBBJsDefault = parcelHelpers.interopDefault(_dataLoaderBBJs);
-var _dataLoaderMMJs = require("./dataLoaderMM.js");
+var _dataLoaderMMJs = require("./dataLoaderMM.js"); // Supondo que esses módulos sejam necessários
 var _dataLoaderMMJsDefault = parcelHelpers.interopDefault(_dataLoaderMMJs);
-var _dataLoaderGGJs = require("./dataLoaderGG.js");
+var _dataLoaderGGJs = require("./dataLoaderGG.js"); // Dados principais
 var _dataLoaderGGJsDefault = parcelHelpers.interopDefault(_dataLoaderGGJs);
-// async function fetchData() {
-//     const response = await fetch('../dados_bb.json');
-//     const data = await response.json();
-//     return data;
-// }
 (async function() {
-    // const datajson = await fetchData();
-    // Extrair labels (data_coleta) e datasets (bpm, movimentos)
-    // const labels = data.map(item => item.data_coleta);
-    // const bpmData = data.map(item => item.bpm);
-    // const movimentosData = data.map(item => item.movimentos);
-    const data = [
-        {
-            year: 2010,
-            count: 10
-        },
-        {
-            year: 2011,
-            count: 20
-        },
-        {
-            year: 2012,
-            count: 15
-        },
-        {
-            year: 2013,
-            count: 25
-        },
-        {
-            year: 2014,
-            count: 22
-        },
-        {
-            year: 2015,
-            count: 30
-        },
-        {
-            year: 2016,
-            count: 28
-        }
-    ];
-    console.log((0, _dataLoaderGGJsDefault.default).dates.data);
-    // console.log("dados BB")
-    // console.log('BB dates:', bb.dates);
-    // console.log('BB bpm:', bb.bpmData);
-    // console.log('BB movimentos:', bb.movimentosData);
-    // console.log("Dados mae")
-    // console.log('Labels:', mm.labels);
-    //   console.log('Baixa Data:', mm.baixaData);
-    //   console.log('Alta Data:', mm.altaData);
-    //   console.log('Glicemia Data:', mm.glicemiaData);
-    //   console.log('BPM Data:', mm.bpmData);
+    // Função para converter "HH:mm" para minutos desde a meia-noite
+    const timeToMinutes = (timeStr)=>{
+        const [hours, minutes] = timeStr.split(":").map(Number);
+        return hours * 60 + minutes;
+    };
+    const interval_time = 1;
+    // Função para converter minutos desde a meia-noite para "HH:mm"
+    const minutesToTime = (minutes)=>{
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        return `${hours.toString().padStart(interval_time, "0")}:${mins.toString().padStart(interval_time, "0")}`;
+    };
+    // Obter a hora atual
+    const now = new Date();
+    const currentTimeStr = minutesToTime(now.getHours() * 60 + now.getMinutes());
+    // Definir o intervalo de 2 horas antes e depois da hora atual
+    const twoHoursInMinutes = interval_time * 60;
+    const currentTimeInMinutes = timeToMinutes(currentTimeStr);
+    const startTimeInMinutes = currentTimeInMinutes - twoHoursInMinutes;
+    const endTimeInMinutes = currentTimeInMinutes + twoHoursInMinutes;
+    // Filtrar os dados para a data específica e dentro do intervalo de tempo
+    const dataForDate = (0, _dataLoaderGGJsDefault.default).dates.filter((date)=>date.date === "2024-07-07");
+    const filteredData = dataForDate.filter((data)=>{
+        const timeInMinutes = timeToMinutes(data.time);
+        return timeInMinutes >= startTimeInMinutes && timeInMinutes <= endTimeInMinutes;
+    });
+    // Ordenar pelo campo 'time'
+    const sortedFilteredData = filteredData.sort((a, b)=>timeToMinutes(a.time) - timeToMinutes(b.time));
+    // Extrair labels e dados ordenados
+    const labels = sortedFilteredData.map((data)=>data.time);
+    const mediaPressaoData = sortedFilteredData.map((_, index)=>(0, _dataLoaderGGJsDefault.default).mediaPressao[index]); // Ajustar conforme necessário
+    const glicemiaData = sortedFilteredData.map((_, index)=>(0, _dataLoaderGGJsDefault.default).glicemiaData[index]); // Ajustar conforme necessário
+    const bpmData = sortedFilteredData.map((_, index)=>(0, _dataLoaderGGJsDefault.default).bpmData[index]); // Ajustar conforme necessário
+    // Exibir os resultados
+    console.log("Filtered and Sorted Data:", sortedFilteredData);
+    // Gráfico de linha para dados BPM
     new (0, _autoDefault.default)(document.getElementById("acquisitionsArea"), {
         type: "line",
         options: {
             animation: false,
             plugins: {
                 legend: {
-                    display: false
+                    display: true
                 },
                 tooltip: {
-                    enabled: false
+                    enabled: true
                 }
             }
         },
         data: {
-            labels: (0, _dataLoaderGGJsDefault.default).dates.data,
+            labels: labels,
             datasets: [
                 {
-                    label: "Acquisitions by year",
-                    data: (0, _dataLoaderBBJsDefault.default).bpmData,
+                    label: "BPM Data",
+                    data: bpmData,
                     backgroundColor: "rgba(75, 192, 192, 0.2)",
-                    fill: true // Preencher a área abaixo da linha
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    fill: false // Preencher a área abaixo da linha
                 }
             ]
         }
     });
+    // Gráfico de linha para pressão arterial
     new (0, _autoDefault.default)(document.getElementById("acquisitionsLine"), {
         type: "line",
         options: {
             animation: false,
             plugins: {
                 legend: {
-                    display: false
+                    display: true
                 },
                 tooltip: {
-                    enabled: false
+                    enabled: true
                 }
             }
         },
         data: {
-            labels: data.map((row)=>row.year),
+            labels: labels,
             datasets: [
                 {
-                    label: "Acquisitions by year",
-                    data: data.map((row)=>row.count)
+                    label: "Press\xe3o Arterial",
+                    data: mediaPressaoData,
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    fill: false // Não preencher a área abaixo da linha
                 }
             ]
         }
     });
+    // Gráfico de barras para glicemia
     new (0, _autoDefault.default)(document.getElementById("acquisitionsBar"), {
-        type: "bar",
+        type: "line",
         options: {
             animation: false,
             plugins: {
                 legend: {
-                    display: false
+                    display: true
                 },
                 tooltip: {
-                    enabled: false
+                    enabled: true
                 }
             }
         },
         data: {
-            labels: data.map((row)=>row.year),
+            labels: labels,
             datasets: [
                 {
-                    label: "Acquisitions by year",
-                    data: data.map((row)=>row.count)
+                    label: "Glicemia",
+                    data: glicemiaData
                 }
             ]
         }
@@ -14177,7 +14167,7 @@ var _dadosBbJson = require("../dados_bb.json"); // Importar o JSON diretamente
 var _dadosBbJsonDefault = parcelHelpers.interopDefault(_dadosBbJson);
 function processDateTime(dateTimeStr) {
     // Divida a string em data e hora
-    const [date, time] = dateTimeStr.split(" ");
+    const [date, time] = dateTimeStr.split("  ");
     // Converta para um objeto Date, ajustando para o formato ISO 8601
     const dateTime = new Date(`${date}T${time}:00`);
     return {
@@ -14204,7 +14194,7 @@ const bb = processData((0, _dadosBbJsonDefault.default));
 exports.default = bb;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../dados_bb.json":"3GM7O"}],"3GM7O":[function(require,module,exports) {
-module.exports = JSON.parse('[{"data_coleta":"13-07-2024  21:59","bpm":62,"movimentos":119},{"data_coleta":"19-07-2024  21:59","bpm":51,"movimentos":123},{"data_coleta":"14-07-2024  21:59","bpm":58,"movimentos":125}]');
+module.exports = JSON.parse('[{"data_coleta":"07-07-2024  21:01","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:02","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:03","bpm":58,"movimentos":125},{"data_coleta":"07-07-2024  21:04","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:05","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:06","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:07","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:08","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:09","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:10","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:11","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:12","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:13","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:59","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:59","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:59","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:59","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:59","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:59","bpm":51,"movimentos":123},{"data_coleta":"07-07-2024  21:59","bpm":62,"movimentos":119},{"data_coleta":"07-07-2024  21:59","bpm":51,"movimentos":123}]');
 
 },{}],"fKI8X":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -14251,6 +14241,9 @@ function processDateTime(dateTimeStr) {
         dateTime
     };
 }
+function processMedia(altaData, baixaData) {
+    return altaData.map((alta, index)=>(2 * baixaData[index] + alta) / 3);
+}
 // Função principal para processar os dados
 function processData(data) {
     // Mapeia cada item para obter as strings de data e hora
@@ -14259,10 +14252,12 @@ function processData(data) {
     const altaData = data.map((item)=>item.alta);
     const glicemiaData = data.map((item)=>item.glicemia);
     const bpmData = data.map((item)=>item.bpm);
+    const mediaPressao = processMedia(altaData, baixaData);
     // Processa cada string de data e hora usando processDateTime
     const dates = labels.map(processDateTime);
     return {
         dates,
+        mediaPressao,
         baixaData,
         altaData,
         glicemiaData,
