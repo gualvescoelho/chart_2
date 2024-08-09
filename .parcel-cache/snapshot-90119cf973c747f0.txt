@@ -30,7 +30,7 @@
 97C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\ramda\src\dissoc.js133669823326667738 0
 96C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\json5\package.json133669823340951994 0
 127C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\lmdb\dependencies\lmdb\libraries\liblmdb\Makefile133669823342301888 0
-69C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\dist133677056084711542 1
+69C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\dist133677057903917126 1
 132C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\csso\node_modules\css-tree\lib\lexer\generic-urange.js133669823381488727 0
 109C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\caniuse-lite\data\regions\AX.js133669823331535744 0
 118C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\type-fest\source\fixed-length-array.d.ts133669823329393821 0
@@ -74,7 +74,7 @@
 117C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\dayjs\esm\plugin\quarterOfYear\index.js133669823326167556 0
 109C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\source-map\lib\binary-search.js133669823323143832 0
 114C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\core-js\internals\object-iterator.js133669823356819315 0
-84C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\src\acquisitions.js133677056631497032 0
+84C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\src\acquisitions.js133677057902948114 0
 102C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\path-browserify\index.js133669844636533188 0
 142C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\@parcel\optimizer-svgo\node_modules\svgo\plugins\_collections.js133669823387539878 0
 84C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\src\dataLoaderBB.js133677029600752912 0
@@ -10991,7 +10991,7 @@
 145C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\@parcel\core\test\fixtures\config-extends-not-found\.parcelrc-json5133669823381808520 0
 110C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\.bin\download-lmdb-prebuilds.cmd133669823451183671 0
 121C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\@parcel\core\test\fixtures\config\.parcelrc133669823381742717 0
-91C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\dist\index.a521242b.js.map133677056084681523 0
+91C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\dist\index.a521242b.js.map133677057903897091 0
 131C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\@parcel\core\test\fixtures\config\subfolder\.parcelrc133669823381783938 0
 139C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\@parcel\core\test\fixtures\common-targets-ignore\package.json133669823385201088 0
 111C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\@parcel\core\src\applyRuntimes.js133669823381893758 0
@@ -11296,4 +11296,4 @@
 87C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\.bin\svgo133669823451197495 0
 87C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\.bin\uuid133669823451183671 0
 91C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\node_modules\.bin\uuid.ps1133669823451183671 0
-87C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\dist\index.a521242b.js133677056084641522 0
+87C:\Users\gustavo\OneDrive\Documentos\Documentos\BabyMove\chart_2\dist\index.a521242b.js133677057903847078 0

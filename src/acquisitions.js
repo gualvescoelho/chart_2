@@ -29,8 +29,10 @@ import gg from './dataLoaderGG.js'; // Dados principais
   const startTimeInMinutes = currentTimeInMinutes - twoHoursInMinutes;
   const endTimeInMinutes = currentTimeInMinutes + twoHoursInMinutes;
 
+  data_filtrada = '2024-07-07';
+
   // Filtrar os dados para a data específica e dentro do intervalo de tempo
-  const dataForDate = gg.dates.filter(date => date.date === '2024-07-07');
+  const dataForDate = gg.dates.filter(date => date.date === data_filtrada);
   const filteredData = dataForDate.filter(data => {
     const timeInMinutes = timeToMinutes(data.time);
     return timeInMinutes >= startTimeInMinutes && timeInMinutes <= endTimeInMinutes;

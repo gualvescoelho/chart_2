@@ -614,8 +614,9 @@ var _dataLoaderGGJsDefault = parcelHelpers.interopDefault(_dataLoaderGGJs);
     const currentTimeInMinutes = timeToMinutes(currentTimeStr);
     const startTimeInMinutes = currentTimeInMinutes - twoHoursInMinutes;
     const endTimeInMinutes = currentTimeInMinutes + twoHoursInMinutes;
+    data_filtrada = "2024-07-07";
     // Filtrar os dados para a data específica e dentro do intervalo de tempo
-    const dataForDate = (0, _dataLoaderGGJsDefault.default).dates.filter((date)=>date.date === "2024-07-07");
+    const dataForDate = (0, _dataLoaderGGJsDefault.default).dates.filter((date)=>date.date === data_filtrada);
     const filteredData = dataForDate.filter((data)=>{
         const timeInMinutes = timeToMinutes(data.time);
         return timeInMinutes >= startTimeInMinutes && timeInMinutes <= endTimeInMinutes;
