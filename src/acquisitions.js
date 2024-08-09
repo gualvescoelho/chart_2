@@ -1,6 +1,7 @@
 import Chart from 'chart.js/auto'
 import bb from './dataLoaderBB.js'
 import mm from './dataLoaderMM.js'
+import gg from './dataLoaderGG.js'
 
 // async function fetchData() {
 //     const response = await fetch('../dados_bb.json');
@@ -26,19 +27,21 @@ import mm from './dataLoaderMM.js'
     { year: 2016, count: 28 },
   ];
 
-  console.log("dados BB")
+  console.log(gg.dates.data);
 
-  console.log('BB labels:', bb.labels);
-  console.log('BB bpm:', bb.bpmData);
-  console.log('BB movimentos:', bb.movimentosData);
+  // console.log("dados BB")
 
-  console.log("Dados mae")
+  // console.log('BB dates:', bb.dates);
+  // console.log('BB bpm:', bb.bpmData);
+  // console.log('BB movimentos:', bb.movimentosData);
 
-  console.log('Labels:', mm.labels);
-    console.log('Baixa Data:', mm.baixaData);
-    console.log('Alta Data:', mm.altaData);
-    console.log('Glicemia Data:', mm.glicemiaData);
-    console.log('BPM Data:', mm.bpmData);
+  // console.log("Dados mae")
+
+  // console.log('Labels:', mm.labels);
+  //   console.log('Baixa Data:', mm.baixaData);
+  //   console.log('Alta Data:', mm.altaData);
+  //   console.log('Glicemia Data:', mm.glicemiaData);
+  //   console.log('BPM Data:', mm.bpmData);
    new Chart(
     document.getElementById('acquisitionsArea'),
     {
@@ -55,11 +58,11 @@ import mm from './dataLoaderMM.js'
         }
       },
       data: {
-        labels: data.map(row => row.year),
+        labels: gg.dates.data,
         datasets: [
           {
             label: 'Acquisitions by year',
-            data: data.map(row => row.count),
+            data: bb.bpmData,
             backgroundColor: 'rgba(75, 192, 192, 0.2)', // Cor do preenchimento
             fill: true // Preencher a área abaixo da linha
           }
